@@ -1,10 +1,12 @@
 import { useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import api from "../../services/api.js"
 
 const Login = () => {
   const email = useRef()
   const password = useRef()
+
+  const nav = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -15,9 +17,11 @@ const Login = () => {
         password: password.current.value,
       })
       const token = data.data.token
-      console.log(token)
       localStorage.setItem("token", token)
+
+      nav("/todos")
     } catch (error) {
+      alert("Dados incorretos")
       console.error("Erro ao logar", error)
     }
   }
