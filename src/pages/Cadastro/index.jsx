@@ -1,23 +1,45 @@
+import { useRef } from "react"
 import { Link } from "react-router-dom"
+import api from "../../services/api.js"
 
 const Cadastro = () => {
+  const name = useRef()
+  const email = useRef()
+  const password = useRef()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      await api.post("/cadastro",  {
+        name: name.current.value,
+        email: email.current.value,
+        password: password.current.value,
+      })
+      alert('Usuário cadastrado!')
+    } catch (error) {
+      console.error("Erro ao cadastrar", error)
+    }
+  }
+
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 border border-gray-300 rounded-lg shadow-lg text-center">
-      <h2 className="text-2xl font-bold mb-6  text-gray-800">
-        Cadastro
-      </h2>
-      <form className="flex-col space-y-2">
+      <h2 className="text-2xl font-bold mb-6  text-gray-800">Cadastro</h2>
+      <form className="flex-col space-y-2" onSubmit={handleSubmit}>
         <input
+          ref={name}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
           placeholder="Nome"
           type="text"
         />
         <input
+          ref={email}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
           placeholder="E-mail"
           type="email"
         />
         <input
+          ref={password}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
           placeholder="Senha"
           type="password"
