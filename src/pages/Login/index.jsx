@@ -10,11 +10,13 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const data = await api.post("/login",  {
+      const data = await api.post("/login", {
         email: email.current.value,
         password: password.current.value,
       })
-      console.log(data)
+      const token = data.data.token
+      console.log(token)
+      localStorage.setItem("token", token)
     } catch (error) {
       console.error("Erro ao logar", error)
     }
